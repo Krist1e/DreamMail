@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DreamMail.Stores
 {
     public class SelectedFolderStore
-    {
+    {             
         private IMailFolder _selectedFolder;
         public IMailFolder SelectedFolder
         {
@@ -23,6 +23,6 @@ namespace DreamMail.Stores
             }
         }
 
-        public event Action? SelectedFolderChanged;        
+        public event Action? SelectedFolderChanged;
     }
 }
