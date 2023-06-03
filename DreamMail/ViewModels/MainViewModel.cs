@@ -13,12 +13,12 @@ namespace DreamMail.ViewModels
         public ViewModelBase? CurrentViewModel => _navigationStore.CurrentViewModel;
         public bool IsOpen => _navigationStore.IsOpen;
 
-        public MailsViewModel MailsViewModel { get; }
+        public MailboxViewModel MailboxViewModel { get; }
 
-        public MainViewModel(NavigationStore navigationStore, MailsViewModel mailsViewModel)
+        public MainViewModel(NavigationStore navigationStore, MailboxViewModel mailboxViewModel)
         {
             _navigationStore = navigationStore;
-            MailsViewModel = mailsViewModel;
+            MailboxViewModel = mailboxViewModel;
 
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }

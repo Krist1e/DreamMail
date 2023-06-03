@@ -8,11 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Views\" />
+    <PackageReference Include="MailKit" Version="4.0.0" />
+    <PackageReference Include="RoyWpf.Controls.Pagination" Version="0.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="4.0.0" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>

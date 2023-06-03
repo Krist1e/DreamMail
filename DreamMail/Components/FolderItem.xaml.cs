@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DreamMail
+namespace DreamMail.Components
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для FolderItem.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class FolderItem : UserControl
     {
-        public MainWindow()
+        public FolderItem()
         {
             InitializeComponent();
         }

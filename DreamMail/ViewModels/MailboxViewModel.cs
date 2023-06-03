@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DreamMail.Commands;
+using DreamMail.Stores;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +18,21 @@ namespace DreamMail.ViewModels
         public ICommand LoadFoldersCommand;
         public ICommand LoadMailsCommand;
 
+        public MailboxViewModel(MailsStore mailsStore, FoldersStore foldersStore, SelectedFolderStore selectedFolderStore, SelectedMailStore selectedMailStore, NavigationStore navigationStore)
+        {
+            FoldersViewModel = new FoldersViewModel(foldersStore, selectedFolderStore);
+            MailsViewModel = new MailsViewModel(mailsStore, selectedMailStore);
+            MailDetailsViewModel = new MailDetailsViewModel(selectedMailStore, navigationStore);
 
+            LoadFoldersCommand = new LoadFoldersCommand(FoldersViewModel, foldersStore);
+            LoadMailsCommand = new LoadMailsCommand(MailsViewModel, mailsStore, selectedFolderStore);
+        }
 
-
+        public static MailboxViewModel LoadViewModel(MailsStore mailsStore, FoldersStore foldersStore, SelectedFolderStore selectedFolderStore, SelectedMailStore selectedMailStore, NavigationStore navigationStore)
+        {
+            MailboxViewModel mailboxViewModel = new(mailsStore, foldersStore, selectedFolderStore, selectedMailStore, navigationStore);
+            mailboxViewModel.LoadFoldersCommand.Execute(null);
+            return mailboxViewModel;
+        }
     }
 }

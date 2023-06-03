@@ -11,6 +11,7 @@ namespace DreamMail.ViewModels
     public class MailDetailsViewModel : ViewModelBase
     {
         private SelectedMailStore _selectedMailStore;
+        private NavigationStore _navigationStore;
         public MimeMessage SelectedMail => _selectedMailStore.SelectedMail;
         public bool HasSelectedMail => SelectedMail != null;
         public string SenderName => SelectedMail?.Sender.Name;
@@ -21,9 +22,10 @@ namespace DreamMail.ViewModels
         public bool HasAttachments => SelectedMail?.Attachments.Any() ?? false;
         public string[] Attachments => SelectedMail?.Attachments.Select(a => a.ContentDisposition?.FileName ?? "No name").ToArray() ?? new string[0];
 
-        public MailDetailsViewModel(SelectedMailStore selectedMailStore)
+        public MailDetailsViewModel(SelectedMailStore selectedMailStore, NavigationStore navigationStore)
         {
             _selectedMailStore = selectedMailStore;
+            _navigationStore = navigationStore;
 
             _selectedMailStore.SelectedMailChanged += OnSelectedMailChanged;
         }
