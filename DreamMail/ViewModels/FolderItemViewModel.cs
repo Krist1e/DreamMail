@@ -3,7 +3,7 @@ using MailKit;
 
 namespace DreamMail.ViewModels
 {
-    public class FolderItemViewModel : BaseViewModel
+    public class FolderItemViewModel : ViewModelBase
     {
         public IMailFolder Folder { get; private set; }
         public string FolderName => Folder.Name;

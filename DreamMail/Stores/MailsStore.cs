@@ -15,7 +15,7 @@ namespace DreamMail.Stores
 
         public event Action? MailsLoaded;
         public event Action<MimeMessage>? MailAdded;
-        public event Action<MimeMessage>? MailUpdated;
+        // public event Action<MimeMessage>? MailUpdated;
         public event Action<string>? MailDeleted;
 
 
@@ -51,7 +51,7 @@ namespace DreamMail.Stores
             MailAdded?.Invoke(mail);
         }
 
-        public async Task Update(MimeMessage mail)
+        /*public async Task Update(MimeMessage mail)
         {
             // TODO: Add command for updating mail
             //await _updateMailCommand.Execute(mail);
@@ -68,7 +68,7 @@ namespace DreamMail.Stores
             }
 
             MailUpdated?.Invoke(mail);
-        }
+        }*/
 
         public async Task Delete(string id)
         {

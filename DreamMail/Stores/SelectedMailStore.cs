@@ -32,7 +32,7 @@ namespace DreamMail.Stores
             _mailsStore = mailsStore;
 
             _mailsStore.MailAdded += OnMailAdded;
-            _mailsStore.MailUpdated += OnMailUpdated;
+            // _mailsStore.MailUpdated += OnMailUpdated;
         }
         
         private void OnMailAdded(MimeMessage mail)
@@ -40,12 +40,12 @@ namespace DreamMail.Stores
             SelectedMail = mail;
         }
 
-        private void OnMailUpdated(MimeMessage mail)
+        /*private void OnMailUpdated(MimeMessage mail)
         {
             if (mail.MessageId == SelectedMail?.MessageId)
             {
                 SelectedMail = mail;
             }
-        }
+        }*/
     }
 }

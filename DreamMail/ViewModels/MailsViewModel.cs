@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DreamMail.ViewModels
 {
-    public class MailsViewModel : BaseViewModel
+    public class MailsViewModel : ViewModelBase
     {
         private SelectedMailStore _selectedMailStore;
                 
@@ -20,7 +20,7 @@ namespace DreamMail.ViewModels
             get
             {
                 return _mailItemViewModels
-                    .FirstOrDefault(mail => mail.Mail.MessageId == _selectedMailStore.SelectedMail?.MessageId);
+                    .FirstOrDefault(mail => mail.Mail?.MessageId == _selectedMailStore.SelectedMail?.MessageId);
             }
             set
             {
@@ -36,22 +36,28 @@ namespace DreamMail.ViewModels
             _selectedMailStore.SelectedMailChanged += OnSelectedMailChanged;
 
             mailsStore.MailAdded += OnMailAdded;
-            mailsStore.MailUpdated += OnMailUpdated;
+            // mailsStore.MailUpdated += OnMailUpdated;
         }
-
-        private void OnMailUpdated(MimeMessage obj)
+        
+        /*private void OnMailUpdated(MimeMessage mail)
         {
-            throw new NotImplementedException();
-        }
+            MailItemViewModel mailItemViewModel =
+                _mailItemViewModels.FirstOrDefault(other => other.Mail?.MessageId == mail?.MessageId);
 
-        private void OnMailAdded(MimeMessage obj)
+            if (mailItemViewModel != null)
+            {
+                mailItemViewModel.Update(mail);
+            }
+        }*/
+
+        private void OnMailAdded(MimeMessage mail)
         {
-            throw new NotImplementedException();
+            _mailItemViewModels.Add(new MailItemViewModel(mail));
         }
 
         private void OnSelectedMailChanged()
         {
-            throw new NotImplementedException();
+            OnPropertyChanged(nameof(SelectedMailItemViewModel));
         }
     }    
 }

@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace DreamMail.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         

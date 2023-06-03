@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace DreamMail.ViewModels
 {
-    public class FoldersViewModel : BaseViewModel
+    public class FoldersViewModel : ViewModelBase
     {
         private SelectedFolderStore _selectedFolderStore;
         private FoldersStore _foldersStore;
