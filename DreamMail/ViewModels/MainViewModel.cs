@@ -1,40 +1,32 @@
 ﻿using DreamMail.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace DreamMail.ViewModels;
 
-namespace DreamMail.ViewModels
+public class MainViewModel : ViewModelBase
 {
-    public class MainViewModel : ViewModelBase
+    private readonly NavigationStore _navigationStore;
+
+    public MainViewModel(NavigationStore navigationStore, MailboxViewModel mailboxViewModel)
     {
-        private readonly NavigationStore _navigationStore;
-        public ViewModelBase? CurrentViewModel => _navigationStore.CurrentViewModel;
-        public bool IsOpen => _navigationStore.IsOpen;
+        _navigationStore = navigationStore;
+        MailboxViewModel = mailboxViewModel;
 
-        public MailboxViewModel MailboxViewModel { get; }
+        _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+    }
+    public ViewModelBase? CurrentViewModel => _navigationStore.CurrentViewModel;
+    public bool IsOpen => _navigationStore.IsOpen;
 
-        public MainViewModel(NavigationStore navigationStore, MailboxViewModel mailboxViewModel)
-        {
-            _navigationStore = navigationStore;
-            MailboxViewModel = mailboxViewModel;
+    public MailboxViewModel MailboxViewModel { get; }
 
-            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
-        }
+    protected override void Dispose()
+    {
+        _navigationStore.CurrentViewModelChanged -= OnCurrentViewModelChanged;
 
-        protected override void Dispose()
-        {
-            _navigationStore.CurrentViewModelChanged -= OnCurrentViewModelChanged;
+        base.Dispose();
+    }
 
-            base.Dispose();
-        }
-
-        private void OnCurrentViewModelChanged()
-        {
-            OnPropertyChanged(nameof(CurrentViewModel));
-            OnPropertyChanged(nameof(IsOpen));
-        }
-
+    private void OnCurrentViewModelChanged()
+    {
+        OnPropertyChanged(nameof(CurrentViewModel));
+        OnPropertyChanged(nameof(IsOpen));
     }
 }

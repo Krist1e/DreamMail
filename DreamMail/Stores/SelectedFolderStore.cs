@@ -1,28 +1,19 @@
-﻿using MailKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using MailKit;
+namespace DreamMail.Stores;
 
-namespace DreamMail.Stores
+public class SelectedFolderStore
 {
-    public class SelectedFolderStore
-    {             
-        private IMailFolder _selectedFolder;
-        public IMailFolder SelectedFolder
+    private IMailFolder _selectedFolder;
+    public IMailFolder SelectedFolder
+    {
+        get => _selectedFolder;
+        set
         {
-            get
-            {
-                return _selectedFolder;
-            }
-            set
-            {
-                _selectedFolder = value;
-                SelectedFolderChanged?.Invoke();
-            }
+            _selectedFolder = value;
+            SelectedFolderChanged?.Invoke();
         }
-
-        public event Action? SelectedFolderChanged;
     }
+
+    public event Action? SelectedFolderChanged;
 }

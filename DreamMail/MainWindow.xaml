@@ -3,58 +3,58 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DreamMail" 
-        xmlns:components="clr-namespace:DreamMail.Components" 
-        xmlns:viewmodels="clr-namespace:DreamMail.ViewModels" 
+        xmlns:components="clr-namespace:DreamMail.Components"
+        xmlns:viewmodels="clr-namespace:DreamMail.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MailboxViewModel}"
         mc:Ignorable="d"
         Title="MainWindow"
-        d:DesignHeight="700" 
+        d:DesignHeight="700"
         d:DesignWidth="1300"
-        WindowStartupLocation="CenterScreen"
-        DataContext="{x:Type viewmodels:MailboxViewModel}"
-        >
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1.25*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1.25*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0" BorderThickness="1" BorderBrush="Gray">
             <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Button Grid.Column="0" x:Name="NewMailButton" FontSize="30" Content="+ New mail"/>
-            <TextBlock Grid.Row="1"
-                Text="Folders" FontSize="30" HorizontalAlignment="Center">
-            </TextBlock>
-            <components:Folders Grid.Row="2" DataContext="{x:Type viewmodels:FoldersViewModel}"/>
-            <Button Grid.Row="3" x:Name="SwitchAccountButton" Content="= Switch Account" FontSize="30"/>
-        </Grid>
+                <Button Grid.Column="0" x:Name="NewMailButton" FontSize="30" Content="+ New mail" />
+                <TextBlock Grid.Row="1"
+                           Text="Folders" FontSize="30" HorizontalAlignment="Center" />
+
+                <components:Folders
+                    Grid.Row="2"
+                    DataContext="{Binding FoldersViewModel}" />
+
+                <Button Grid.Row="3" x:Name="SwitchAccountButton" Content="= Switch Account" FontSize="30" />
+            </Grid>
         </Border>
 
         <Border Grid.Column="1" BorderThickness="1" BorderBrush="Gray">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Text="Search" FontSize="24" BorderThickness="3" Margin="20 5">
-                </TextBox>
+                <TextBox Grid.Row="0" Text="Search" FontSize="24" BorderThickness="3" Margin="20 5" />
 
-                <components:Mails Grid.Row="1" BorderThickness="3" DataContext="{x:Type viewmodels:MailsViewModel}"/>
+                <components:Mails Grid.Row="1" BorderThickness="3" DataContext="{x:Type viewmodels:MailsViewModel}" />
             </Grid>
         </Border>
 
         <Border Grid.Column="2" BorderThickness="1" BorderBrush="Gray">
-            <components:MailDetails DataContext="{x:Type viewmodels:MailDetailsViewModel}"/>
+            <components:MailDetails DataContext="{x:Type viewmodels:MailDetailsViewModel}" />
         </Border>
 
     </Grid>

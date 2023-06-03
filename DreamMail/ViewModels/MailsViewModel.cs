@@ -1,63 +1,56 @@
-﻿using DreamMail.Stores;
-using MimeKit;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DreamMail.Stores;
+using MimeKit;
+namespace DreamMail.ViewModels;
 
-namespace DreamMail.ViewModels
+public class MailsViewModel : ViewModelBase
 {
-    public class MailsViewModel : ViewModelBase
+
+    private readonly ObservableCollection<MailItemViewModel> _mailItemViewModels;
+    private readonly SelectedMailStore _selectedMailStore;
+
+    public MailsViewModel(MailsStore mailsStore, SelectedMailStore selectedMailStore)
     {
-        private SelectedMailStore _selectedMailStore;
-                
-        private readonly ObservableCollection<MailItemViewModel> _mailItemViewModels;
-        public IEnumerable<MailItemViewModel> MailItemViewModels => _mailItemViewModels;
+        _mailItemViewModels = new ObservableCollection<MailItemViewModel>();
 
-        public MailItemViewModel SelectedMailItemViewModel {
-            get
-            {
-                return _mailItemViewModels
-                    .FirstOrDefault(mail => mail.Mail?.MessageId == _selectedMailStore.SelectedMail?.MessageId);
-            }
-            set
-            {
-                _selectedMailStore.SelectedMail = value.Mail;
-            }
-        }
+        _selectedMailStore = selectedMailStore;
+        _selectedMailStore.SelectedMailChanged += OnSelectedMailChanged;
 
-        public MailsViewModel(MailsStore mailsStore, SelectedMailStore selectedMailStore)
+        mailsStore.MailAdded += OnMailAdded;
+        // mailsStore.MailUpdated += OnMailUpdated;
+    }
+    public IEnumerable<MailItemViewModel> MailItemViewModels => _mailItemViewModels;
+
+    public MailItemViewModel SelectedMailItemViewModel
+    {
+        get
         {
-            _mailItemViewModels = new ObservableCollection<MailItemViewModel>();
-
-            _selectedMailStore = selectedMailStore;
-            _selectedMailStore.SelectedMailChanged += OnSelectedMailChanged;
-
-            mailsStore.MailAdded += OnMailAdded;
-            // mailsStore.MailUpdated += OnMailUpdated;
+            return _mailItemViewModels
+                .FirstOrDefault(mail => mail.Mail?.MessageId == _selectedMailStore.SelectedMail?.MessageId);
         }
-        
-        /*private void OnMailUpdated(MimeMessage mail)
-        {
-            MailItemViewModel mailItemViewModel =
-                _mailItemViewModels.FirstOrDefault(other => other.Mail?.MessageId == mail?.MessageId);
+        set => _selectedMailStore.SelectedMail = value.Mail;
+    }
 
-            if (mailItemViewModel != null)
-            {
-                mailItemViewModel.Update(mail);
-            }
-        }*/
+    /*private void OnMailUpdated(MimeMessage mail)
+    {
+        MailItemViewModel mailItemViewModel =
+            _mailItemViewModels.FirstOrDefault(other => other.Mail?.MessageId == mail?.MessageId);
 
-        private void OnMailAdded(MimeMessage mail)
+        if (mailItemViewModel != null)
         {
-            _mailItemViewModels.Add(new MailItemViewModel(mail));
+            mailItemViewModel.Update(mail);
         }
+    }*/
 
-        private void OnSelectedMailChanged()
-        {
-            OnPropertyChanged(nameof(SelectedMailItemViewModel));
-        }
-    }    
+    private void OnMailAdded(MimeMessage mail)
+    {
+        _mailItemViewModels.Add(new MailItemViewModel(mail));
+    }
+
+    private void OnSelectedMailChanged()
+    {
+        OnPropertyChanged(nameof(SelectedMailItemViewModel));
+    }
 }

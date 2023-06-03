@@ -1,51 +1,41 @@
-﻿using MailKit;
+﻿using System;
 using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace DreamMail.Stores;
 
-namespace DreamMail.Stores
+public class SelectedMailStore
 {
-    public class SelectedMailStore
+    private readonly MailsStore _mailsStore;
+    private MimeMessage _selectedMail;
+
+    public SelectedMailStore(MailsStore mailsStore)
     {
-        private MailsStore _mailsStore;
-        private MimeMessage _selectedMail;
-        public MimeMessage SelectedMail
+        _mailsStore = mailsStore;
+
+        _mailsStore.MailAdded += OnMailAdded;
+        // _mailsStore.MailUpdated += OnMailUpdated;
+    }
+    public MimeMessage SelectedMail
+    {
+        get => _selectedMail;
+        set
         {
-            get
-            {
-                return _selectedMail;
-            }
-            set
-            {
-                _selectedMail = value;
-                SelectedMailChanged?.Invoke();
-            }
+            _selectedMail = value;
+            SelectedMailChanged?.Invoke();
         }
+    }
 
-        public event Action? SelectedMailChanged;
+    public event Action? SelectedMailChanged;
 
-        public SelectedMailStore(MailsStore mailsStore)
-        {
-            _mailsStore = mailsStore;
+    private void OnMailAdded(MimeMessage mail)
+    {
+        SelectedMail = mail;
+    }
 
-            _mailsStore.MailAdded += OnMailAdded;
-            // _mailsStore.MailUpdated += OnMailUpdated;
-        }
-        
-        private void OnMailAdded(MimeMessage mail)
+    /*private void OnMailUpdated(MimeMessage mail)
+    {
+        if (mail.MessageId == SelectedMail?.MessageId)
         {
             SelectedMail = mail;
         }
-
-        /*private void OnMailUpdated(MimeMessage mail)
-        {
-            if (mail.MessageId == SelectedMail?.MessageId)
-            {
-                SelectedMail = mail;
-            }
-        }*/
-    }
+    }*/
 }

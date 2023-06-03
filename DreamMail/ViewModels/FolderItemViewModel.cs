@@ -1,23 +1,20 @@
-﻿using DreamMail.Stores;
-using MailKit;
+﻿using MailKit;
+namespace DreamMail.ViewModels;
 
-namespace DreamMail.ViewModels
+public class FolderItemViewModel : ViewModelBase
 {
-    public class FolderItemViewModel : ViewModelBase
+    //private readonly FoldersStore _foldersStore;
+
+    public FolderItemViewModel(IMailFolder folder)
     {
-        public IMailFolder Folder { get; private set; }
-        public string FolderName => Folder.Name;
-        //private readonly FoldersStore _foldersStore;
+        Folder = folder;
+    }
+    public IMailFolder Folder { get; private set; }
+    public string FolderName => Folder.Name;
 
-        public FolderItemViewModel(IMailFolder folder)
-        {
-            Folder = folder;
-        }
-
-        public void Update(IMailFolder folder)
-        {
-            Folder = folder;
-            OnPropertyChanged(nameof(FolderName));
-        }
+    public void Update(IMailFolder folder)
+    {
+        Folder = folder;
+        OnPropertyChanged(nameof(FolderName));
     }
 }

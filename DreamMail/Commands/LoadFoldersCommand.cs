@@ -1,34 +1,29 @@
-﻿using DreamMail.Stores;
-using DreamMail.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using DreamMail.Stores;
+using DreamMail.ViewModels;
+namespace DreamMail.Commands;
 
-namespace DreamMail.Commands
+public class LoadFoldersCommand : AsyncCommandBase
 {
-    public class LoadFoldersCommand : AsyncCommandBase
+    private readonly FoldersStore _foldersStore;
+    private readonly FoldersViewModel _foldersViewModel;
+
+    public LoadFoldersCommand(FoldersViewModel foldersViewModel, FoldersStore foldersStore)
     {
-        private readonly FoldersViewModel _foldersViewModel;
-        private readonly FoldersStore _foldersStore;
+        _foldersViewModel = foldersViewModel;
+        _foldersStore = foldersStore;
+    }
 
-        public LoadFoldersCommand(FoldersViewModel foldersViewModel, FoldersStore foldersStore)
+    public override async Task ExecuteAsync(object parameter)
+    {
+        try
         {
-            _foldersViewModel = foldersViewModel;
-            _foldersStore = foldersStore;
+            await _foldersStore.Load();
         }
-
-        public override async Task ExecuteAsync(object parameter)
+        catch (Exception e)
         {
-            try
-            {
-                await _foldersStore.Load();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            Console.WriteLine(e);
         }
     }
 }
