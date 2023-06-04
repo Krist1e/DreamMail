@@ -24,7 +24,7 @@ public class MailDetailsViewModel : ViewModelBase
     public string ProfileImage { get; set; }
     public string[] Recipients => SelectedMail?.To.Select(a => a.Name).ToArray();
     public bool HasAttachments => SelectedMail?.Attachments.Any() ?? false;
-    public string[] Attachments => SelectedMail?.Attachments.Select(a => a.ContentDisposition?.FileName ?? "No name").ToArray() ?? new string[0];
+    public string[]? Attachments => SelectedMail?.Attachments.Select(a => a.ContentDisposition?.FileName ?? "No name").ToArray();
 
     private void OnSelectedMailChanged()
     {

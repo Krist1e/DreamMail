@@ -15,7 +15,7 @@ public class MailItemViewModel : ViewModelBase
     public string Id => Mail.MessageId;
     public string SenderName => Mail.Sender.Name;
     public string Subject => Mail.Subject;
-    public string BodyPart => Mail.TextBody.Substring(0, Math.Min(100, Mail.TextBody.Length));
+    public string? BodyPart => Mail.TextBody?.Substring(0, Math.Min(100, Mail.TextBody.Length));    
     public string Date => Mail.Date.ToString("dd.MM.yyyy HH:mm");
     public string ProfileImage { get; set; }
     public bool HasAttachments => Mail.Attachments.Any();

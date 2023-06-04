@@ -11,26 +11,10 @@
     </UserControl.Resources>
 
 
-    <Grid>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row="0" Text="{Binding Subject}"/>
-            <TextBlock Grid.Row="1" Text="{Binding SenderName}"/>
-            <TextBlock Grid.Row="2" Text="{Binding Date}"/>
-            <TextBlock Grid.Row="3" Text="{Binding Recipients}"/>
-            
-        </Grid>
-    </Grid>
+        <StackPanel Orientation="Vertical" Margin="20">
+        <TextBlock Text="{Binding Subject}"/>
+        <TextBlock Text="{Binding SenderName}"/>
+        <TextBlock Text="{Binding Date}"/>
+        <TextBlock Text="{Binding Recipients}"/>
+    </StackPanel>
 </UserControl>

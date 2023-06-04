@@ -19,6 +19,7 @@ public partial class App : Application
     private SelectedFolderStore _selectedFolderStore;
     private SelectedMailStore _selectedMailStore;
     private IMailTransport _smtpClient;
+    private MainViewModel _mainViewModel;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -30,6 +31,7 @@ public partial class App : Application
         _selectedMailStore = new SelectedMailStore(_mailsStore);
         _navigationStore = new NavigationStore();
         _mailboxViewModel = MailboxViewModel.LoadViewModel(_mailsStore, _foldersStore, _selectedFolderStore, _selectedMailStore, _navigationStore);
+        _mainViewModel = new MainViewModel(_navigationStore, _mailboxViewModel);
 
         MainWindow = new MainWindow
         {

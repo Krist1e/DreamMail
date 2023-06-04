@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:components="clr-namespace:DreamMail.Components"
         xmlns:viewmodels="clr-namespace:DreamMail.ViewModels"
-        d:DataContext="{d:DesignInstance Type=viewmodels:MailboxViewModel}"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="MainWindow"
         d:DesignHeight="700"

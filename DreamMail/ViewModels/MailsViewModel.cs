@@ -22,7 +22,7 @@ public class MailsViewModel : ViewModelBase
 
         _mailsStore.MailAdded += OnMailAdded;
         _mailsStore.MailsLoaded += OnMailsLoaded;
-        // mailsStore.MailUpdated += OnMailUpdated;
+        _mailsStore.MailUpdated += OnMailUpdated;
     }
     public IEnumerable<MailItemViewModel> MailItemViewModels => _mailItemViewModels;
 
@@ -36,16 +36,13 @@ public class MailsViewModel : ViewModelBase
         set => _selectedMailStore.SelectedMail = value.Mail;
     }
 
-    /*private void OnMailUpdated(MimeMessage mail)
+    private void OnMailUpdated(MimeMessage mail)
     {
         MailItemViewModel mailItemViewModel =
             _mailItemViewModels.FirstOrDefault(other => other.Mail?.MessageId == mail?.MessageId);
 
-        if (mailItemViewModel != null)
-        {
-            mailItemViewModel.Update(mail);
-        }
-    }*/
+        mailItemViewModel?.Update(mail);
+    }
 
     private void OnMailsLoaded()
     {

@@ -23,7 +23,6 @@ public class MailboxViewModel : ViewModelBase
     public FoldersViewModel FoldersViewModel { get; }
     public MailsViewModel MailsViewModel { get; }
     public MailDetailsViewModel MailDetailsViewModel { get; }
-    
     public static MailboxViewModel LoadViewModel(MailsStore mailsStore, FoldersStore foldersStore, SelectedFolderStore selectedFolderStore, SelectedMailStore selectedMailStore, NavigationStore navigationStore)
     {
         MailboxViewModel mailboxViewModel = new(mailsStore, foldersStore, selectedFolderStore, selectedMailStore, navigationStore);
