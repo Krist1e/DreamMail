@@ -10,15 +10,18 @@ public class MailsViewModel : ViewModelBase
 
     private readonly ObservableCollection<MailItemViewModel> _mailItemViewModels;
     private readonly SelectedMailStore _selectedMailStore;
+    private readonly MailsStore _mailsStore;
 
     public MailsViewModel(MailsStore mailsStore, SelectedMailStore selectedMailStore)
     {
         _mailItemViewModels = new ObservableCollection<MailItemViewModel>();
 
+        _mailsStore = mailsStore;
         _selectedMailStore = selectedMailStore;
         _selectedMailStore.SelectedMailChanged += OnSelectedMailChanged;
 
-        mailsStore.MailAdded += OnMailAdded;
+        _mailsStore.MailAdded += OnMailAdded;
+        _mailsStore.MailsLoaded += OnMailsLoaded;
         // mailsStore.MailUpdated += OnMailUpdated;
     }
     public IEnumerable<MailItemViewModel> MailItemViewModels => _mailItemViewModels;
@@ -43,6 +46,16 @@ public class MailsViewModel : ViewModelBase
             mailItemViewModel.Update(mail);
         }
     }*/
+
+    private void OnMailsLoaded()
+    {
+        _mailItemViewModels.Clear();
+
+        foreach (var mail in _mailsStore.Mails)
+        {
+            _mailItemViewModels.Add(new MailItemViewModel(mail));
+        }
+    }
 
     private void OnMailAdded(MimeMessage mail)
     {

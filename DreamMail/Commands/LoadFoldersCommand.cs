@@ -18,7 +18,7 @@ public class LoadFoldersCommand : AsyncCommandBase
     public override async Task ExecuteAsync(object parameter)
     {
         try
-        {
+        {            
             await _foldersStore.Load();
         }
         catch (Exception e)

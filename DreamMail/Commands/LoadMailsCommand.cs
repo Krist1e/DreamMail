@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using DreamMail.Stores;
 using DreamMail.ViewModels;
+using MailKit;
+
 namespace DreamMail.Commands;
 
 public class LoadMailsCommand : AsyncCommandBase
@@ -21,7 +23,7 @@ public class LoadMailsCommand : AsyncCommandBase
     {
         try
         {
-            await _mailsStore.Load(_selectedFolderStore.SelectedFolder);
+            await _mailsStore.Load(parameter as IMailFolder);
         }
         catch (Exception e)
         {

@@ -20,8 +20,9 @@ public class MailDetailsViewModel : ViewModelBase
     public string SenderName => SelectedMail?.Sender.Name;
     public string Subject => SelectedMail?.Subject;
     public string Body => SelectedMail?.TextBody;
-    public string Date => SelectedMail?.Date.ToString();
+    public string Date => SelectedMail?.Date.ToString("dd.MM.yyyy HH:mm");
     public string ProfileImage { get; set; }
+    public string[] Recipients => SelectedMail?.To.Select(a => a.Name).ToArray();
     public bool HasAttachments => SelectedMail?.Attachments.Any() ?? false;
     public string[] Attachments => SelectedMail?.Attachments.Select(a => a.ContentDisposition?.FileName ?? "No name").ToArray() ?? new string[0];
 
@@ -35,5 +36,7 @@ public class MailDetailsViewModel : ViewModelBase
         OnPropertyChanged(nameof(Date));
         OnPropertyChanged(nameof(HasAttachments));
         OnPropertyChanged(nameof(Attachments));
+        OnPropertyChanged(nameof(Recipients));
+        
     }
 }

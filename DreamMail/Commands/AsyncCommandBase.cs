@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 namespace DreamMail.Commands;
 
@@ -28,7 +29,10 @@ public abstract class AsyncCommandBase : CommandBase
         {
             await ExecuteAsync(parameter);
         }
-        catch (Exception) {}
+        catch (Exception e)
+        {
+            Debug.WriteLine("Error: {0}", e.Message);
+        }
         finally
         {
             IsExecuting = false;

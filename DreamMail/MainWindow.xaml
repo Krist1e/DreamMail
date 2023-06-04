@@ -49,12 +49,12 @@
 
                 <TextBox Grid.Row="0" Text="Search" FontSize="24" BorderThickness="3" Margin="20 5" />
 
-                <components:Mails Grid.Row="1" BorderThickness="3" DataContext="{x:Type viewmodels:MailsViewModel}" />
+                <components:Mails Grid.Row="1" BorderThickness="3" DataContext="{Binding MailsViewModel}" />
             </Grid>
         </Border>
 
         <Border Grid.Column="2" BorderThickness="1" BorderBrush="Gray">
-            <components:MailDetails DataContext="{x:Type viewmodels:MailDetailsViewModel}" />
+            <components:MailDetails DataContext="{Binding MailDetailsViewModel}" />
         </Border>
 
     </Grid>

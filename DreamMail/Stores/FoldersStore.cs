@@ -69,7 +69,7 @@ public class FakeMailFolder : IMailFolder
 
     public char DirectorySeparator => throw new NotImplementedException();
 
-    public FolderAccess Access => throw new NotImplementedException();
+    public FolderAccess Access => FolderAccess.ReadWrite;
 
     public bool IsNamespace => throw new NotImplementedException();
 

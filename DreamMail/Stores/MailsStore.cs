@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using MailKit;
 using MailKit.Search;
@@ -9,7 +10,6 @@ namespace DreamMail.Stores;
 public class MailsStore
 {
     private readonly List<MimeMessage> _mails;
-
 
     public MailsStore()
     {
@@ -25,17 +25,37 @@ public class MailsStore
     public async Task Load(IMailFolder folder)
     {
         List<MimeMessage>? mails = new();
+        var message = new MimeMessage()
+        {
+            Subject = "Test",
+            Body = new TextPart("plain") { Text = "Test" },
+            Date = DateTime.Now,
+            MessageId = "1",
+            Sender = new MailboxAddress("Kris1", "kris.lex1e3@gmail.com"),
+            To = { new MailboxAddress("Kris2", "kris_lexie@mail.ru"), new MailboxAddress("Kris3", "kris.com605@gmail.com") },
+        };
+        mails.Add(message);
+        message = new MimeMessage()
+        {
+            Subject = "Test2",
+            Body = new TextPart("plain") { Text = "Test" },
+            Date = DateTime.Now,
+            MessageId = "1",
+            Sender = new MailboxAddress("Kris3", "kris.lex1e3@gmail.com"),
+            To = { new MailboxAddress("Kris4", "kris_lexie@mail.ru"), new MailboxAddress("Kris3", "kris.com605@gmail.com") },
+        };
+        mails.Add(message);
+        /*var uids = folder.Search(SearchQuery.HasGMailLabel(folder.ToString()));
 
-        var uids = folder.Search(SearchQuery.All);
         foreach (var uid in uids)
         {
             var message = await folder.GetMessageAsync(uid);
             mails.Add(message);
-        }
+        }*/
 
         _mails.Clear();
-        _mails.AddRange(mails);
-
+        _mails.AddRange(mails);        
+        // add mails to folder        
         MailsLoaded?.Invoke();
     }
 
