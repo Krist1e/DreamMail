@@ -5,12 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:components="clr-namespace:DreamMail.Components"
         xmlns:viewmodels="clr-namespace:DreamMail.ViewModels"
-        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MailboxViewModel}"
         mc:Ignorable="d"
         Title="MainWindow"
         d:DesignHeight="700"
         d:DesignWidth="1300"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:MailDetailsViewModel}">
+            <components:MailDetails />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:NewMailViewModel}">
+            <components:NewMailDetails />
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -27,7 +35,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Button Grid.Column="0" x:Name="NewMailButton" FontSize="30" Content="+ New mail" />
+                <Button Grid.Column="0" x:Name="NewMailButton" FontSize="30" Content="+ New mail" Command="{Binding OpenNewMailCommand}"/>
                 <TextBlock Grid.Row="1"
                            Text="Folders" FontSize="30" HorizontalAlignment="Center" />
 
@@ -35,26 +43,16 @@
                     Grid.Row="2"
                     DataContext="{Binding FoldersViewModel}" />
 
-                <Button Grid.Row="3" x:Name="SwitchAccountButton" Content="= Switch Account" FontSize="30" />
+                <Button Grid.Row="3" x:Name="SwitchAccountButton" Content="= Switch Account" FontSize="30" Command="{Binding SwitchAccountCommand}" />
             </Grid>
         </Border>
 
         <Border Grid.Column="1" BorderThickness="1" BorderBrush="Gray">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <TextBox Grid.Row="0" Text="Search" FontSize="24" BorderThickness="3" Margin="20 5" />
-
-                <components:Mails Grid.Row="1" BorderThickness="3" DataContext="{Binding MailsViewModel}" />
-            </Grid>
+            <components:Mails Grid.Row="0" BorderThickness="3" DataContext="{Binding MailsViewModel}" />
         </Border>
 
         <Border Grid.Column="2" BorderThickness="1" BorderBrush="Gray">
-            <components:MailDetails DataContext="{Binding MailDetailsViewModel}" />
+            <ContentControl Content="{Binding CurrentViewModel}"/>
         </Border>
 
     </Grid>

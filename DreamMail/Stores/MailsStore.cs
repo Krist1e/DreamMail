@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using MailKit;
 using MailKit.Search;
@@ -12,70 +12,53 @@ public class MailsStore
 {
     private readonly List<MimeMessage> _mails;
 
+    private readonly object _lock = new();
+    private bool _isLoading;
+    private Task? _loadingTask;
+
     public MailsStore()
     {
         _mails = new List<MimeMessage>();
     }
     public IEnumerable<MimeMessage> Mails => _mails;
 
-    public event Action? MailsLoaded;
+    public event Action? StartLoading;
+    public event Action? EndLoading;
     public event Action<MimeMessage>? MailAdded;
     public event Action<MimeMessage>? MailUpdated;
     public event Action<string>? MailDeleted;
 
     public async Task Load(IMailFolder folder)
     {
-        List<MimeMessage>? mails = new();
-        var attachment1 = new MimePart("application", "txt")
+        if (_isLoading)
         {
-            Content = new MimeContent(File.OpenRead("D:\\ArkanoidGameProject (7)\\ArkanoidGameProject\\ArkanoidGameProject\\bin\\Debug\\net7.0\\save.txt")),
-            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-            FileName = "save.txt"
-        };
-        var multipart = new Multipart("mixed");
-        multipart.Add(attachment1);
-        var message = new MimeMessage()
-        {
-            Subject = "Test",
-            Date = DateTime.Now,
-            MessageId = "1",
-            Sender = new MailboxAddress("Kris1", "kris.lex1e3@gmail.com"),
-            To = { new MailboxAddress("Kris2", "kris_lexie@mail.ru"), new MailboxAddress("Kris3", "kris.com605@gmail.com") },
-            //Body = multipart
-        };
-        mails.Add(message);
-        message = new MimeMessage()
-        {
-            Subject = "Test2",
-            Body = new TextPart("plain") { Text = "Test" },
-            Date = DateTime.Now,
-            MessageId = "2",
-            Sender = new MailboxAddress("Kris3", "kris.lex1e3@gmail.com"),
-            To = { new MailboxAddress("Kris4", "kris_lexie@mail.ru"), new MailboxAddress("Kris3", "kris.com605@gmail.com") },
-        };
-        mails.Add(message);
-        message = new MimeMessage()
-        {
-            Subject = "Test3",
-            Body = new TextPart("plain") { Text = "Test" },
-            Date = DateTime.Now,
-            MessageId = "3",
-            Sender = new MailboxAddress("Kris5", "kris.lex1e3@gmail.com"),
-            To = { new MailboxAddress("Kris6", "kris_lexie@mail.ru"), new MailboxAddress("Kris5", "kris.com605@gmail.com") },
-        };
-        mails.Add(message);
-        /*var uids = folder.Search(SearchQuery.HasGMailLabel(folder.ToString()));
+            _isLoading = false;
+            await _loadingTask!;
+        }
 
-        foreach (var uid in uids)
-        {
-            var message = await folder.GetMessageAsync(uid);
-            mails.Add(message);
-        }*/
-
+        _isLoading = true;
         _mails.Clear();
-        _mails.AddRange(mails);        
-        // add mails to folder        
-        MailsLoaded?.Invoke();
+        _loadingTask = LoadMails(folder);
+        await _loadingTask;
+    }
+
+    private async Task LoadMails(IMailFolder folder)
+    {
+        await folder.OpenAsync(FolderAccess.ReadOnly);
+        var uids = await folder.SearchAsync(SearchQuery.All);         
+        StartLoading?.Invoke();
+        var descendingUids = uids.OrderByDescending(uid => uid);
+        foreach (var uid in descendingUids)
+        {
+            if (!_isLoading)
+                break;
+            var message = await folder.GetMessageAsync(uid);
+            _mails.Add(message);
+            MailAdded?.Invoke(message);
+        }
+        EndLoading?.Invoke();
+        await folder.CloseAsync();
+        _isLoading = false;
     }
 
     public async Task Add(MimeMessage mail)

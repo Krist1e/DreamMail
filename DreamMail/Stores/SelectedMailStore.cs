@@ -11,7 +11,7 @@ public class SelectedMailStore
     {
         _mailsStore = mailsStore;
 
-        _mailsStore.MailAdded += OnMailAdded;
+        //_mailsStore.MailAdded += OnMailAdded;
         _mailsStore.MailUpdated += OnMailUpdated;
     }
     public MimeMessage SelectedMail
@@ -26,10 +26,10 @@ public class SelectedMailStore
 
     public event Action? SelectedMailChanged;
 
-    private void OnMailAdded(MimeMessage mail)
+    /*private void OnMailAdded(MimeMessage mail)
     {
         SelectedMail = mail;
-    }
+    }*/
 
     private void OnMailUpdated(MimeMessage mail)
     {

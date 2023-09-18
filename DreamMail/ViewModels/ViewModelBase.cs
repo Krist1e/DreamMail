@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 namespace DreamMail.ViewModels;
 
-public class ViewModelBase : INotifyPropertyChanged
+public class ViewModelBase : INotifyPropertyChanged, IDisposable
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -10,5 +11,5 @@ public class ViewModelBase : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    protected virtual void Dispose() {}
+    public virtual void Dispose() {}
 }

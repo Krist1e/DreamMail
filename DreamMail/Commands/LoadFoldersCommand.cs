@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DreamMail.Stores;
-using DreamMail.ViewModels;
 namespace DreamMail.Commands;
 
 public class LoadFoldersCommand : AsyncCommandBase
 {
     private readonly FoldersStore _foldersStore;
-    private readonly FoldersViewModel _foldersViewModel;
 
-    public LoadFoldersCommand(FoldersViewModel foldersViewModel, FoldersStore foldersStore)
+    public LoadFoldersCommand(FoldersStore foldersStore)
     {
-        _foldersViewModel = foldersViewModel;
         _foldersStore = foldersStore;
     }
 

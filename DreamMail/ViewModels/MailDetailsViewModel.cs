@@ -5,27 +5,23 @@ namespace DreamMail.ViewModels;
 
 public class MailDetailsViewModel : ViewModelBase
 {
-    private NavigationStore _navigationStore;
     private readonly SelectedMailStore _selectedMailStore;
 
-    public MailDetailsViewModel(SelectedMailStore selectedMailStore, NavigationStore navigationStore)
+    public MailDetailsViewModel(SelectedMailStore selectedMailStore)
     {
         _selectedMailStore = selectedMailStore;
-        _navigationStore = navigationStore;
 
         _selectedMailStore.SelectedMailChanged += OnSelectedMailChanged;
     }
     public MimeMessage SelectedMail => _selectedMailStore.SelectedMail;
     public bool HasSelectedMail => SelectedMail != null;
-    public string SenderName => SelectedMail?.Sender.Name;
-    public string Subject => SelectedMail?.Subject;
-    public string Body => SelectedMail?.TextBody;
-    public string Date => SelectedMail?.Date.ToString("dd.MM.yyyy HH:mm");
-    public string ProfileImage { get; set; }
-    public string[] Recipients => SelectedMail?.To.Select(a => a.Name).ToArray();
+    public string? SenderName => SelectedMail?.From.ToString();
+    public string? Subject => SelectedMail?.Subject;
+    public string? Body => SelectedMail?.TextBody;
+    public string? Date => SelectedMail?.Date.ToString("dd.MM.yyyy HH:mm");
+    public string? Recipients => SelectedMail?.To.ToString();
     public bool HasAttachments => SelectedMail?.Attachments.Any() ?? false;
-    public string[]? Attachments => SelectedMail?.Attachments.Select(a => a.ContentDisposition?.FileName ?? "No name").ToArray();
-
+    public string? Attachments => SelectedMail?.Attachments.ToString();
     private void OnSelectedMailChanged()
     {
         OnPropertyChanged(nameof(SelectedMail));

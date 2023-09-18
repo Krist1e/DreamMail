@@ -1,44 +1,49 @@
-﻿using System.Windows.Input;
+﻿using MimeKit;
+using MimeKit.Utils;
+using System;
+using System.Linq;
+using System.Windows.Input;
+using DreamMail.Commands;
+using MailKit;
 namespace DreamMail.ViewModels;
 
 public class NewMailViewModel : ViewModelBase
 {
+    private string[] _attachments = Array.Empty<string>();
+    private string _body = string.Empty;
+    private string _recipients = string.Empty;
+    private string _sender = string.Empty;
+    private string _subject = string.Empty;
 
-    private string[] _attachments;
+    public ICommand SendCommand { get; }
 
-    private string _body;
-
-    private string _recipient;
-    private string _sender;
-
-    private string _subject;
-    public ICommand AddAttachments;
-    public ICommand DiscardMailCommand;
-
-    public ICommand SendMailCommand;
-
-    public NewMailViewModel(ICommand sendMailCommand, ICommand discardMailCommand, ICommand addAttachments)
+    public NewMailViewModel(IMailTransport smtpClient)
     {
-        SendMailCommand = sendMailCommand;
-        DiscardMailCommand = discardMailCommand;
-        AddAttachments = addAttachments;
+        Mail.Date = DateTimeOffset.Now;
+        Mail.MessageId = MimeUtils.GenerateMessageId();
+        SendCommand = new SendCommand(smtpClient, this);
     }
+
+    public MimeMessage Mail { get; } = new();
+
     public string Sender
     {
         get => _sender;
         set
         {
             _sender = value;
+            Mail.Sender = MailboxAddress.Parse(_sender);
             OnPropertyChanged(nameof(Sender));
         }
     }
-    public string Recipient
+    public string Recipients
     {
-        get => _recipient;
+        get => _recipients;
         set
         {
-            _recipient = value;
-            OnPropertyChanged(nameof(Recipient));
+            _recipients = value;
+            Mail.To.AddRange(_recipients.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(MailboxAddress.Parse));
+            OnPropertyChanged(nameof(Recipients));
         }
     }
     public string Subject
@@ -47,6 +52,7 @@ public class NewMailViewModel : ViewModelBase
         set
         {
             _subject = value;
+            Mail.Subject = _subject;
             OnPropertyChanged(nameof(Subject));
         }
     }
@@ -56,6 +62,10 @@ public class NewMailViewModel : ViewModelBase
         set
         {
             _body = value;
+            Mail.Body = new TextPart("plain")
+            {
+                Text = _body
+            };
             OnPropertyChanged(nameof(Body));
         }
     }
@@ -68,5 +78,9 @@ public class NewMailViewModel : ViewModelBase
             OnPropertyChanged(nameof(Attachments));
         }
     }
-    public bool CanSend { get; set; }
+    public bool CanSend
+    {
+        get => !string.IsNullOrWhiteSpace(_sender) && _recipients.Any() && !string.IsNullOrWhiteSpace(_subject) && !string.IsNullOrWhiteSpace(_body);
+    }
+
 }

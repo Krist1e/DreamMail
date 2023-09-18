@@ -15,9 +15,9 @@ public class MainViewModel : ViewModelBase
     public ViewModelBase? CurrentViewModel => _navigationStore.CurrentViewModel;
     public bool IsOpen => _navigationStore.IsOpen;
 
-    public MailboxViewModel MailboxViewModel { get; }
+    public MailboxViewModel MailboxViewModel { get; set; }
 
-    protected override void Dispose()
+    public override void Dispose()
     {
         _navigationStore.CurrentViewModelChanged -= OnCurrentViewModelChanged;
 

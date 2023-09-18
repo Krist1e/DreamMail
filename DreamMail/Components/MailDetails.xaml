@@ -4,17 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:viewmodels="clr-namespace:DreamMail.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MailDetailsViewModel}"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="450" d:DesignWidth="610"
              FontSize="18">
     <UserControl.Resources>
-        <Converter x:Key="RecipientsConverter" />
     </UserControl.Resources>
 
 
-        <StackPanel Orientation="Vertical" Margin="20">
-        <TextBlock Text="{Binding Subject}"/>
-        <TextBlock Text="{Binding SenderName}"/>
-        <TextBlock Text="{Binding Date}"/>
-        <TextBlock Text="{Binding Recipients}"/>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical" Margin="20" MaxWidth="490">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Subject}"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding SenderName}"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Date}"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Recipients}" Margin="0 0 0 15"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Body}"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Attachments}"/>
     </StackPanel>
+    </ScrollViewer>
 </UserControl>

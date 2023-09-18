@@ -8,12 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MailKit" Version="4.0.0"/>
-        <PackageReference Include="RoyWpf.Controls.Pagination" Version="0.1.2"/>
+        <PackageReference Include="Google.Apis.Auth" Version="1.60.0" />
+        <PackageReference Include="Google.Apis.Gmail.v1" Version="1.60.0.3056" />
+        <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.60.0.1869" />
+        <PackageReference Include="MailKit" Version="4.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Views\"/>
+        <Folder Include="Views\" />
     </ItemGroup>
 
 </Project>

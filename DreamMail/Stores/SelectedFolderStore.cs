@@ -4,8 +4,8 @@ namespace DreamMail.Stores;
 
 public class SelectedFolderStore
 {
-    private IMailFolder _selectedFolder;
-    public IMailFolder SelectedFolder
+    private IMailFolder? _selectedFolder;
+    public IMailFolder? SelectedFolder
     {
         get => _selectedFolder;
         set

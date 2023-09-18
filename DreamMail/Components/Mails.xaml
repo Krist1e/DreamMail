@@ -11,6 +11,7 @@
         <ListView
             BorderThickness="0"
             ItemsSource="{Binding MailItemViewModels}"
+            ScrollViewer.PanningMode="VerticalFirst"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectedItem="{Binding SelectedMailItemViewModel}"
             SelectionMode="Single">
